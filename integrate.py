@@ -7,8 +7,8 @@ def integral():
         f = sympify(expression)
         result = integrate(f, x)
         print("The integral is: ", result)
-    except Exception as e:
-        print("Invalid input:", e)
+    except:
+        print("Invalid input, try again.")
 
 if __name__ == "__main__":
     integral()
