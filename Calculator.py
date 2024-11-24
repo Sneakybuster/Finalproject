@@ -15,7 +15,7 @@ def evaluate_expression(expr):
     except Exception as e:
         return "Error"
 
-# Function to create the scientific calculator UI
+
 def scientific_calculator():
     for widget in root.winfo_children():
         widget.destroy()  
@@ -97,23 +97,82 @@ def scientific_calculator():
 
 def graphic_calculator():
     for widget in root.winfo_children():
-        widget.destroy()  # Clear the window
+        widget.destroy()
 
     root.title("Graphic Calculator")
-    Label(root, text="Graphic Calculator Coming Soon!", font=("Helvetica", 16)).pack(pady=20)
+
+    def plot_graph():
+        try:
+            degree = int(degree_entry.get())  
+            coeffs = list(map(float, coeff_entry.get().split()))
+            left = float(left_entry.get())  
+            right = float(right_entry.get())  
+            points = int(points_entry.get())
+
+            if len(coeffs) != degree + 1:
+                raise ValueError("Number of coefficients must match the degree + 1.")
+
+            p = np.poly1d(coeffs)
+            x = np.linspace(left, right, points)
+            y = p(x)
+
+            for widget in plot_frame.winfo_children():
+                widget.destroy()
+
+            fig, ax = plt.subplots(figsize=(5, 4))
+            ax.plot(x, y)
+            ax.set_title("Polynomial Graph")
+            ax.set_xlabel("X-Axis")
+            ax.set_ylabel("Y-Axis")
+            ax.grid(True)
+
+            canvas = FigureCanvasTkAgg(fig, master=plot_frame)
+            canvas.get_tk_widget().pack()
+            canvas.draw()
+
+        except ValueError:
+            error_label.config(text="Invalid input! Check your values.")
+
+    Label(root, text="Enter Degree of Polynomial:").pack()
+    degree_entry = Entry(root)
+    degree_entry.pack()
+
+    Label(root, text="Enter Coefficients (space-separated):").pack()
+    coeff_entry = Entry(root)
+    coeff_entry.pack()
+
+    Label(root, text="Enter Left Bound:").pack()
+    left_entry = Entry(root)
+    left_entry.pack()
+
+    Label(root, text="Enter Right Bound:").pack()
+    right_entry = Entry(root)
+    right_entry.pack()
+
+    Label(root, text="Enter Number of Points:").pack()
+    points_entry = Entry(root)
+    points_entry.pack()
+
+    Button(root, text="Plot Graph", command=plot_graph).pack(pady=10)
+
+    error_label = Label(root, text="", fg="red")
+    error_label.pack()
+
+    plot_frame = Frame(root)
+    plot_frame.pack()
 
 def statistics_calculator():
     for widget in root.winfo_children():
-        widget.destroy()  # Clear the window
+        widget.destroy()  
 
     root.title("Statistics Calculator")
     Label(root, text="Statistics Calculator Coming Soon!", font=("Helvetica", 16)).pack(pady=20)
 
-# Main Root Window
+
 root = Tk()
 root.title("Calculator Selector")
 
-# Main Menu
+
 menu = Menu(root)
 root.config(menu=menu)
 
@@ -125,7 +184,7 @@ calc_menu.add_command(label="Statistics Calculator", command=statistics_calculat
 calc_menu.add_separator()
 calc_menu.add_command(label="Exit", command=root.quit)
 
-# Default View
+
 Label(root, text="Welcome to the Multi-Mode Calculator", font=("Helvetica", 16)).pack(pady=20)
 Label(root, text="Select a calculator type from the menu above.", font=("Helvetica", 12)).pack(pady=10)
 
