@@ -1,5 +1,11 @@
-from tkinter import *
 import math
+import matplotlib.pyplot as plt
+import numpy as np
+from tkinter import *
+from tkinter import messagebox
+from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
+
+
 def evaluate_expression(expr):
     try:
         expr = expr.replace("sin(", "math.sin(")
@@ -9,8 +15,8 @@ def evaluate_expression(expr):
         expr = expr.replace("ln(", "math.log(")
         expr = expr.replace("e(", "math.exp(")
         expr = expr.replace("π", str(math.pi))
-        expr = expr.replace("abs", "math.fabs")
-        expr = expr.replace("**(1/", "math.pow(x, 1/y)")
+        expr = expr.replace("abs(", "math.fabs(")
+        expr = expr.replace("math.sqrt(", "math.sqrt(")
         return eval(expr)
     except Exception as e:
         return "Error"
@@ -18,7 +24,7 @@ def evaluate_expression(expr):
 
 def scientific_calculator():
     for widget in root.winfo_children():
-        widget.destroy()  
+        widget.destroy()
 
     root.title("Scientific Calculator")
     global string, input
@@ -61,8 +67,8 @@ def scientific_calculator():
     Button(root, text="π", command=lambda: button_click("π")).grid(row=2, column=3, sticky="nsew")
     Button(root, text='x^n', command=lambda: button_click('**')).grid(row=2, column=4, sticky="nsew")
 
-    Button(root, text='\u221A', command=lambda: button_click('math.sqrt(')).grid(row=3, column=0, sticky="nsew")
-    Button(root, text='log\u2081\u2080', command=lambda: button_click('log(')).grid(row=3, column=1, sticky="nsew")
+    Button(root, text='√', command=lambda: button_click('math.sqrt(')).grid(row=3, column=0, sticky="nsew")
+    Button(root, text='log10', command=lambda: button_click('log(')).grid(row=3, column=1, sticky="nsew")
     Button(root, text='ln', command=lambda: button_click('ln(')).grid(row=3, column=2, sticky="nsew")
     Button(root, text="e^x", command=lambda: button_click('math.exp(')).grid(row=3, column=3, sticky="nsew")
     Button(root, text="\u00B1", command=lambda: button_click('-')).grid(row=3, column=4, sticky="nsew")
@@ -95,6 +101,7 @@ def scientific_calculator():
     Button(root, text=".", command=lambda: button_click('.')).grid(row=8, column=1, sticky="nsew")
     Button(root, text="=", command=calculate).grid(row=8, column=2, columnspan=3, sticky="nsew")
 
+
 def graphic_calculator():
     for widget in root.winfo_children():
         widget.destroy()
@@ -103,15 +110,14 @@ def graphic_calculator():
 
     def plot_graph():
         try:
-            degree = int(degree_entry.get())  
+            degree = int(degree_entry.get())
             coeffs = list(map(float, coeff_entry.get().split()))
-            left = float(left_entry.get())  
-            right = float(right_entry.get())  
+            left = float(left_entry.get())
+            right = float(right_entry.get())
             points = int(points_entry.get())
 
             if len(coeffs) != degree + 1:
                 raise ValueError("Number of coefficients must match the degree + 1.")
-
             p = np.poly1d(coeffs)
             x = np.linspace(left, right, points)
             y = p(x)
@@ -130,8 +136,8 @@ def graphic_calculator():
             canvas.get_tk_widget().pack()
             canvas.draw()
 
-        except ValueError:
-            error_label.config(text="Invalid input! Check your values.")
+        except ValueError as e:
+            error_label.config(text="Error: " + str(e))
 
     Label(root, text="Enter Degree of Polynomial:").pack()
     degree_entry = Entry(root)
@@ -149,7 +155,7 @@ def graphic_calculator():
     right_entry = Entry(root)
     right_entry.pack()
 
-    Label(root, text="Enter Number of Points:").pack()
+    Label(root, text="Enter Spacing Between Each Point:").pack()
     points_entry = Entry(root)
     points_entry.pack()
 
@@ -161,9 +167,10 @@ def graphic_calculator():
     plot_frame = Frame(root)
     plot_frame.pack()
 
+
 def statistics_calculator():
     for widget in root.winfo_children():
-        widget.destroy()  
+        widget.destroy()
 
     root.title("Statistics Calculator")
     Label(root, text="Statistics Calculator Coming Soon!", font=("Helvetica", 16)).pack(pady=20)
@@ -171,7 +178,6 @@ def statistics_calculator():
 
 root = Tk()
 root.title("Calculator Selector")
-
 
 menu = Menu(root)
 root.config(menu=menu)
@@ -183,7 +189,6 @@ calc_menu.add_command(label="Graphic Calculator", command=graphic_calculator)
 calc_menu.add_command(label="Statistics Calculator", command=statistics_calculator)
 calc_menu.add_separator()
 calc_menu.add_command(label="Exit", command=root.quit)
-
 
 Label(root, text="Welcome to the Multi-Mode Calculator", font=("Helvetica", 16)).pack(pady=20)
 Label(root, text="Select a calculator type from the menu above.", font=("Helvetica", 12)).pack(pady=10)
