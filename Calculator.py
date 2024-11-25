@@ -4,6 +4,8 @@ import numpy as np
 from tkinter import *
 from tkinter import messagebox
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
+import statistics
+
 
 
 def evaluate_expression(expr):
@@ -99,7 +101,8 @@ def scientific_calculator():
 
     Button(root, text='0', command=lambda: button_click('0')).grid(row=8, column=0, sticky="nsew")
     Button(root, text=".", command=lambda: button_click('.')).grid(row=8, column=1, sticky="nsew")
-    Button(root, text="=", command=calculate).grid(row=8, column=2, columnspan=3, sticky="nsew")
+    Button(root, text="=", command=calculate).grid(row=8, column=2, columnspan=2, sticky="nsew")
+    Button(root, text="Back", command=Mainmenu).grid(row=8, column=4, columnspan=1, sticky="nsew")
 
 
 def graphic_calculator():
@@ -138,6 +141,7 @@ def graphic_calculator():
 
         except ValueError as e:
             error_label.config(text="Error: " + str(e))
+    Button(root, text="Main Menu", command=Mainmenu).pack(pady=10)
 
     Label(root, text="Enter Degree of Polynomial:").pack()
     degree_entry = Entry(root)
@@ -173,8 +177,72 @@ def statistics_calculator():
         widget.destroy()
 
     root.title("Statistics Calculator")
-    Label(root, text="Statistics Calculator Coming Soon!", font=("Helvetica", 16)).pack(pady=20)
 
+    def mean():
+        numbers = list(map(float, number_entry.get().split()))
+        mean = statistics.mean(numbers)
+        result_label.config(text=f"Mean: {mean}")
+
+    def median():
+        numbers = list(map(float, number_entry.get().split()))
+        median = statistics.median(numbers)
+        result_label.config(text=f"Median: {median}")
+
+    def mode():
+        numbers = list(map(float, number_entry.get().split()))
+        mode = statistics.mode(numbers)
+        result_label.config(text=f"Mode: {mode}")
+        
+    def stdev():
+        numbers = list(map(float, number_entry.get().split()))
+        stdev = statistics.stdev(numbers)
+        result_label.config(text=f"Standard Deviation: {stdev}")
+
+
+    Button(root, text="Main Menu", command=Mainmenu).pack(pady=10)
+
+    Label(root, text="Enter Numbers(space seperated):").pack()
+    number_entry = Entry(root)
+    number_entry.pack()
+
+    Button(root, text="Mean", command=mean).pack(pady=10)
+
+    Button(root, text="Median", command=median).pack(pady=10)
+
+    Button(root, text="Mode", command=mode).pack(pady=10)
+
+    Button(root, text="Standard Deviation", command=stdev).pack(pady=10)
+
+    result_label = Label(root, text="", font=("Helvetica", 14))
+    result_label.pack(pady=20)
+
+def calculus_calculator():
+    for widget in root.winfo_children():
+        widget.destroy()
+    root.title("Calculus Calculator")
+    Label(root, text="Calculus Calculator Coming Soon!", font=("Helvetica", 16)).pack(pady=20)
+
+
+#To go back to main menu(function)w
+def Mainmenu():
+    for widget in root.winfo_children():
+        widget.destroy()
+    root.title("Calculator Selector")
+
+    menu = Menu(root)
+    root.config(menu=menu)
+
+    calc_menu = Menu(menu, tearoff=0)
+    menu.add_cascade(label="Calculator Type", menu=calc_menu)
+    calc_menu.add_command(label="Scientific Calculator", command=scientific_calculator)
+    calc_menu.add_command(label="Graphic Calculator", command=graphic_calculator)
+    calc_menu.add_command(label="Statistics Calculator", command=statistics_calculator)
+    calc_menu.add_command(label="Calculus Calculator", command=calculus_calculator)
+    calc_menu.add_separator()
+    calc_menu.add_command(label="Exit", command=root.quit)
+
+    Label(root, text="Welcome to the Multi-Mode Calculator", font=("Helvetica", 16)).pack(pady=20)
+    Label(root, text="Select a calculator type from the menu above.", font=("Helvetica", 12)).pack(pady=10)
 
 root = Tk()
 root.title("Calculator Selector")
@@ -187,6 +255,7 @@ menu.add_cascade(label="Calculator Type", menu=calc_menu)
 calc_menu.add_command(label="Scientific Calculator", command=scientific_calculator)
 calc_menu.add_command(label="Graphic Calculator", command=graphic_calculator)
 calc_menu.add_command(label="Statistics Calculator", command=statistics_calculator)
+calc_menu.add_command(label="Calculus Calculator", command=calculus_calculator)
 calc_menu.add_separator()
 calc_menu.add_command(label="Exit", command=root.quit)
 
