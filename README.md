@@ -1,2 +1,2 @@
 # Finalproject
-CICS 110 Final Project
+Graphing Calulator With Additional Functions
