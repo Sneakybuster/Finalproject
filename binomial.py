@@ -3,7 +3,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 
 n = int(input("Number of Successes: "))
-p = int(input("Probability: "))
+p = float(input("Probability: "))
 x = np.arange(0, n + 1)
 pmf = stats.binom.pmf(x, n, p)
 
