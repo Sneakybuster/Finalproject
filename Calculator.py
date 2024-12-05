@@ -5,9 +5,13 @@ from tkinter import *
 from tkinter import messagebox
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 import statistics
+from sympy import Symbol, integrate, sympify
+import sympy as sp
+from scipy.stats import poisson
+import scipy.stats as stats
 
 
-
+#Scientific Calculator
 def evaluate_expression(expr):
     try:
         expr = expr.replace("sin(", "math.sin(")
@@ -22,8 +26,7 @@ def evaluate_expression(expr):
         return eval(expr)
     except Exception as e:
         return "Error"
-
-
+    
 def scientific_calculator():
     for widget in root.winfo_children():
         widget.destroy()
@@ -56,7 +59,6 @@ def scientific_calculator():
         string = str(result)
         input.set(string)
 
-    # Add Scientific Calculator Buttons
     Button(root, text="ABS", command=lambda: button_click("abs(")).grid(row=1, column=0, sticky="nsew")
     Button(root, text="MOD", command=lambda: button_click("%")).grid(row=1, column=1, sticky="nsew")
     Button(root, text="DIV", command=lambda: button_click("//")).grid(row=1, column=2, sticky="nsew")
@@ -104,7 +106,7 @@ def scientific_calculator():
     Button(root, text="=", command=calculate).grid(row=8, column=2, columnspan=2, sticky="nsew")
     Button(root, text="Back", command=Mainmenu).grid(row=8, column=4, columnspan=1, sticky="nsew")
 
-
+#Graphic Calculator
 def graphic_calculator():
     for widget in root.winfo_children():
         widget.destroy()
@@ -171,7 +173,7 @@ def graphic_calculator():
     plot_frame = Frame(root)
     plot_frame.pack()
 
-
+#Statistics Calculator
 def statistics_calculator():
     for widget in root.winfo_children():
         widget.destroy()
@@ -216,14 +218,210 @@ def statistics_calculator():
     result_label = Label(root, text="", font=("Helvetica", 14))
     result_label.pack(pady=20)
 
+#Calculus Calculator
 def calculus_calculator():
     for widget in root.winfo_children():
         widget.destroy()
     root.title("Calculus Calculator")
-    Label(root, text="Calculus Calculator Coming Soon!", font=("Helvetica", 16)).pack(pady=20)
+
+    def integral():
+        try:
+            express=Calculus_entry.get()
+            x = Symbol('x')
+            f = sympify(express)
+            result = integrate(f, x)
+            result_label.config(text=f"Integral: {result}")
+        except Exception as e:
+            result_label.config(text=f"Error: {e}")
+
+    def diffrentiate():
+        try:
+            express=Calculus_entry.get()
+            x = sp.symbols('x')
+            value = sp.parse_expr(express)
+            derivative = sp.diff(value, x)
+            result_label.config(text=f"Derivative: {derivative}")
+        except Exception as e:
+            result_label.config(text=f"Error: {e}")
+    
+    Button(root, text="Main Menu", command=Mainmenu).pack(pady=10)
+
+    Label(root, text="Enter the expression to integrate (in terms of x): ").pack()
+    Calculus_entry = Entry(root)
+    Calculus_entry.pack()
+
+    Button(root, text="Integrate", command=integral).pack(pady=10)
+
+    Button(root, text="Diffrentiate", command=diffrentiate).pack(pady=10)
+
+    result_label = Label(root, text="", font=("Helvetica", 14))
+    result_label.pack(pady=20)
+
+#Distributions
+def Binomial_Distribution():
+    for widget in root.winfo_children():
+        widget.destroy()
+    root.title("Binomial Distribution")
+    def binomial():
+        try:
+            n = int(successes_entry.get())
+            p = float(prob_entry.get())
+
+            x = np.arange(0, n + 1)
+            pmf = stats.binom.pmf(x, n, p)
+
+            for widget in plot_frame.winfo_children():
+                widget.destroy()
+
+            fig, ax = plt.subplots(figsize=(5, 4))
+            plt.bar(x, pmf)
+            ax.set_title("Binomial Distribution (n={}, p={})".format(n, p))
+            ax.set_xlabel("Number of Successes")
+            ax.set_ylabel("Probability")
+            ax.grid(False)
+
+            canvas = FigureCanvasTkAgg(fig, master=plot_frame)
+            canvas.get_tk_widget().pack()
+            canvas.draw()
+        except ValueError as e:
+            error_label.config(text="Error: " + str(e))
+    
+
+    Button(root, text="Main Menu", command=Mainmenu).pack(pady=10)
+
+    Label(root, text="Enter Number Of Successes:").pack()
+    successes_entry = Entry(root)
+    successes_entry.pack()
+
+    Label(root, text="Enter Probability:").pack()
+    prob_entry = Entry(root)
+    prob_entry.pack()
+
+    Button(root, text="Plot Graph", command=binomial).pack(pady=10)
+
+    error_label = Label(root, text="", fg="red")
+    error_label.pack()
+
+    plot_frame = Frame(root)
+    plot_frame.pack()
 
 
-#To go back to main menu(function)w
+def Normal_Distribution():
+    for widget in root.winfo_children():
+        widget.destroy()
+    root.title("Normal Distribution")
+
+    def normal():
+        try:
+            mean = int(mean_entry.get())
+            stdev = int(stdev_entry.get())
+            size = int(size_entry.get())
+
+            data = np.random.normal(mean, stdev, size)
+
+            for widget in plot_frame.winfo_children():
+                widget.destroy()
+
+            fig, ax = plt.subplots(figsize=(5, 4))
+            plt.hist(data, 100)
+            plt.axvline(data.mean(), color = 'k', linestyle = 'dashed', linewidth = 2)
+            ax.set_title("Normal Graph")
+            ax.set_xlabel("X-Axis")
+            ax.set_ylabel("Y-Axis")
+            ax.grid(False)
+
+            canvas = FigureCanvasTkAgg(fig, master=plot_frame)
+            canvas.get_tk_widget().pack()
+            canvas.draw()
+        except ValueError as e:
+            error_label.config(text="Error: " + str(e))
+    
+
+    Button(root, text="Main Menu", command=Mainmenu).pack(pady=10)
+
+    Label(root, text="Enter Mean:").pack()
+    mean_entry = Entry(root)
+    mean_entry.pack()
+
+    Label(root, text="Enter Standard Deviation:").pack()
+    stdev_entry = Entry(root)
+    stdev_entry.pack()
+
+    Label(root, text="Enter Size Of Graph:").pack()
+    size_entry = Entry(root)
+    size_entry.pack()
+
+    Button(root, text="Plot Graph", command=normal).pack(pady=10)
+
+    error_label = Label(root, text="", fg="red")
+    error_label.pack()
+
+    plot_frame = Frame(root)
+    plot_frame.pack()
+
+
+def Poison_Distribution():
+    for widget in root.winfo_children():
+        widget.destroy()
+    root.title("Poison Distribution")
+
+    def poison():
+        try:
+            Lambda = int(Lambda_entry.get())
+            Loc = int(loc_entry.get())
+            left = float(Left_entry.get())
+            right = float(Right_entry.get())
+
+            array = np.arange(left, right, 0.5)
+            graph = poisson.pmf(array, Lambda, Loc)
+        
+
+            for widget in plot_frame.winfo_children():
+                widget.destroy()
+
+            fig, ax = plt.subplots(figsize=(5, 4))
+            ax.plot(array, graph)
+            ax.set_title("Poisson Graph")
+            ax.set_xlabel("X-Axis")
+            ax.set_ylabel("Y-Axis")
+            ax.grid(False)
+
+            canvas = FigureCanvasTkAgg(fig, master=plot_frame)
+            canvas.get_tk_widget().pack()
+            canvas.draw()
+        except ValueError as e:
+            error_label.config(text="Error: " + str(e))
+    
+
+    Button(root, text="Main Menu", command=Mainmenu).pack(pady=10)
+
+    Label(root, text="Enter Left Bound:").pack()
+    Left_entry = Entry(root)
+    Left_entry.pack()
+
+    Label(root, text="Enter Right Bound:").pack()
+    Right_entry = Entry(root)
+    Right_entry.pack()
+
+    Label(root, text="Enter Lambda:").pack()
+    Lambda_entry = Entry(root)
+    Lambda_entry.pack()
+
+    Label(root, text="Enter Location:").pack()
+    loc_entry = Entry(root)
+    loc_entry.pack()
+
+    Button(root, text="Plot Graph", command=poison).pack(pady=10)
+
+    error_label = Label(root, text="", fg="red")
+    error_label.pack()
+
+    plot_frame = Frame(root)
+    plot_frame.pack()
+
+
+
+#Main Menu (function)
 def Mainmenu():
     for widget in root.winfo_children():
         widget.destroy()
@@ -238,12 +436,16 @@ def Mainmenu():
     calc_menu.add_command(label="Graphic Calculator", command=graphic_calculator)
     calc_menu.add_command(label="Statistics Calculator", command=statistics_calculator)
     calc_menu.add_command(label="Calculus Calculator", command=calculus_calculator)
+    calc_menu.add_command(label="Binomial Graphing", command=Binomial_Distribution)
+    calc_menu.add_command(label="Normal Graphing", command=Normal_Distribution)
+    calc_menu.add_command(label="Poisson Graphing", command=Poison_Distribution)
     calc_menu.add_separator()
     calc_menu.add_command(label="Exit", command=root.quit)
 
     Label(root, text="Welcome to the Multi-Mode Calculator", font=("Helvetica", 16)).pack(pady=20)
     Label(root, text="Select a calculator type from the menu above.", font=("Helvetica", 12)).pack(pady=10)
 
+#Starting the Main Menu
 root = Tk()
 root.title("Calculator Selector")
 
@@ -256,6 +458,9 @@ calc_menu.add_command(label="Scientific Calculator", command=scientific_calculat
 calc_menu.add_command(label="Graphic Calculator", command=graphic_calculator)
 calc_menu.add_command(label="Statistics Calculator", command=statistics_calculator)
 calc_menu.add_command(label="Calculus Calculator", command=calculus_calculator)
+calc_menu.add_command(label="Binomial Graphing", command=Binomial_Distribution)
+calc_menu.add_command(label="Normal Graphing", command=Normal_Distribution)
+calc_menu.add_command(label="Poisson Graphing", command=Poison_Distribution)
 calc_menu.add_separator()
 calc_menu.add_command(label="Exit", command=root.quit)
 
