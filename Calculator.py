@@ -2,12 +2,11 @@ import math
 import matplotlib.pyplot as plt
 import numpy as np
 from tkinter import *
-from tkinter import messagebox
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 import statistics
 from sympy import Symbol, integrate, sympify
 import sympy as sp
-from scipy.stats import poisson
+from scipy.stats import poisson,norm
 import scipy.stats as stats
 
 
@@ -59,52 +58,52 @@ def scientific_calculator():
         string = str(result)
         input.set(string)
 
-    Button(root, text="ABS", command=lambda: button_click("abs(")).grid(row=1, column=0, sticky="nsew")
-    Button(root, text="MOD", command=lambda: button_click("%")).grid(row=1, column=1, sticky="nsew")
-    Button(root, text="DIV", command=lambda: button_click("//")).grid(row=1, column=2, sticky="nsew")
-    Button(root, text="x!", command=lambda: button_click("math.factorial(")).grid(row=1, column=3, sticky="nsew")
-    Button(root, text='e', command=lambda: button_click(str(math.e))).grid(row=1, column=4, sticky="nsew")
+    Button(root, text="ABS",bg="#ee9f27", fg="#ffffff", command=lambda: button_click("abs(")).grid(row=1, column=0, sticky="nsew")
+    Button(root, text="MOD",bg="#ee9f27", fg="#ffffff", command=lambda: button_click("%")).grid(row=1, column=1, sticky="nsew")
+    Button(root, text="DIV",bg="#ee9f27", fg="#ffffff", command=lambda: button_click("//")).grid(row=1, column=2, sticky="nsew")
+    Button(root, text="x!",bg="#ee9f27", fg="#ffffff", command=lambda: button_click("math.factorial(")).grid(row=1, column=3, sticky="nsew")
+    Button(root, text='e', bg="#ee9f27", fg="#ffffff",command=lambda: button_click(str(math.e))).grid(row=1, column=4, sticky="nsew")
 
-    Button(root, text="sin", command=lambda: button_click("sin(")).grid(row=2, column=0, sticky="nsew")
-    Button(root, text="cos", command=lambda: button_click("cos(")).grid(row=2, column=1, sticky="nsew")
-    Button(root, text="tan", command=lambda: button_click("tan(")).grid(row=2, column=2, sticky="nsew")
-    Button(root, text="π", command=lambda: button_click("π")).grid(row=2, column=3, sticky="nsew")
-    Button(root, text='x^n', command=lambda: button_click('**')).grid(row=2, column=4, sticky="nsew")
+    Button(root, text="sin",bg="#ee9f27", fg="#ffffff", command=lambda: button_click("sin(")).grid(row=2, column=0, sticky="nsew")
+    Button(root, text="cos",bg="#ee9f27", fg="#ffffff", command=lambda: button_click("cos(")).grid(row=2, column=1, sticky="nsew")
+    Button(root, text="tan",bg="#ee9f27", fg="#ffffff", command=lambda: button_click("tan(")).grid(row=2, column=2, sticky="nsew")
+    Button(root, text="π", bg="#ee9f27", fg="#ffffff",command=lambda: button_click("π")).grid(row=2, column=3, sticky="nsew")
+    Button(root, text='x^n',bg="#ee9f27", fg="#ffffff", command=lambda: button_click('**')).grid(row=2, column=4, sticky="nsew")
 
-    Button(root, text='√', command=lambda: button_click('math.sqrt(')).grid(row=3, column=0, sticky="nsew")
-    Button(root, text='log10', command=lambda: button_click('log(')).grid(row=3, column=1, sticky="nsew")
-    Button(root, text='ln', command=lambda: button_click('ln(')).grid(row=3, column=2, sticky="nsew")
-    Button(root, text="e^x", command=lambda: button_click('math.exp(')).grid(row=3, column=3, sticky="nsew")
-    Button(root, text="\u00B1", command=lambda: button_click('-')).grid(row=3, column=4, sticky="nsew")
+    Button(root, text='√',bg="#ee9f27", fg="#ffffff", command=lambda: button_click('math.sqrt(')).grid(row=3, column=0, sticky="nsew")
+    Button(root, text='log10',bg="#ee9f27", fg="#ffffff", command=lambda: button_click('log(')).grid(row=3, column=1, sticky="nsew")
+    Button(root, text='ln',bg="#ee9f27", fg="#ffffff", command=lambda: button_click('ln(')).grid(row=3, column=2, sticky="nsew")
+    Button(root, text="e^x",bg="#ee9f27", fg="#ffffff", command=lambda: button_click('math.exp(')).grid(row=3, column=3, sticky="nsew")
+    Button(root, text="\u00B1",bg="#ee9f27", fg="#ffffff", command=lambda: button_click('-')).grid(row=3, column=4, sticky="nsew")
 
-    Button(root, text='(', command=lambda: button_click('(')).grid(row=4, column=0, sticky="nsew")
-    Button(root, text=')', command=lambda: button_click(')')).grid(row=4, column=1, sticky="nsew")
-    Button(root, text="csc", command=lambda: button_click("1/math.sin(")).grid(row=4, column=2, sticky="nsew")
-    Button(root, text="sec", command=lambda: button_click("1/math.cos(")).grid(row=4, column=3, sticky="nsew")
-    Button(root, text="cot", command=lambda: button_click("1/math.tan(")).grid(row=4, column=4, sticky="nsew")
+    Button(root, text='(',bg="#505050", fg="#ffffff", command=lambda: button_click('(')).grid(row=4, column=0, sticky="nsew")
+    Button(root, text=')',bg="#505050", fg="#ffffff", command=lambda: button_click(')')).grid(row=4, column=1, sticky="nsew")
+    Button(root, text="csc",bg="#ee9f27", fg="#ffffff", command=lambda: button_click("1/sin(")).grid(row=4, column=2, sticky="nsew")
+    Button(root, text="sec",bg="#ee9f27", fg="#ffffff", command=lambda: button_click("1/cos(")).grid(row=4, column=3, sticky="nsew")
+    Button(root, text="cot",bg="#ee9f27", fg="#ffffff", command=lambda: button_click("1/tan(")).grid(row=4, column=4, sticky="nsew")
 
-    Button(root, text='7', command=lambda: button_click('7')).grid(row=5, column=0, sticky="nsew")
-    Button(root, text="8", command=lambda: button_click('8')).grid(row=5, column=1, sticky="nsew")
-    Button(root, text="9", command=lambda: button_click('9')).grid(row=5, column=2, sticky="nsew")
-    Button(root, text='DEL', command=delete).grid(row=5, column=3, sticky="nsew")
-    Button(root, text='CLR', command=clear).grid(row=5, column=4, sticky="nsew")
+    Button(root, text='7',bg="#505050", fg="#ffffff", command=lambda: button_click('7')).grid(row=5, column=0, sticky="nsew")
+    Button(root, text="8",bg="#505050", fg="#ffffff", command=lambda: button_click('8')).grid(row=5, column=1, sticky="nsew")
+    Button(root, text="9",bg="#505050", fg="#ffffff", command=lambda: button_click('9')).grid(row=5, column=2, sticky="nsew")
+    Button(root, text='DEL',bg="#2196F3", fg="#ffffff", command=delete).grid(row=5, column=3, sticky="nsew")
+    Button(root, text='CLR',bg="#2196F3", fg="#ffffff", command=clear).grid(row=5, column=4, sticky="nsew")
 
-    Button(root, text='4', command=lambda: button_click('4')).grid(row=6, column=0, sticky="nsew")
-    Button(root, text="5", command=lambda: button_click('5')).grid(row=6, column=1, sticky="nsew")
-    Button(root, text="6", command=lambda: button_click('6')).grid(row=6, column=2, sticky="nsew")
-    Button(root, text='*', command=lambda: button_click('*')).grid(row=6, column=3, sticky="nsew")
-    Button(root, text='/', command=lambda: button_click('/')).grid(row=6, column=4, sticky="nsew")
+    Button(root, text='4',bg="#505050", fg="#ffffff", command=lambda: button_click('4')).grid(row=6, column=0, sticky="nsew")
+    Button(root, text="5",bg="#505050", fg="#ffffff", command=lambda: button_click('5')).grid(row=6, column=1, sticky="nsew")
+    Button(root, text="6",bg="#505050", fg="#ffffff", command=lambda: button_click('6')).grid(row=6, column=2, sticky="nsew")
+    Button(root, text='*',bg="#ee9f27", fg="#ffffff", command=lambda: button_click('*')).grid(row=6, column=3, sticky="nsew")
+    Button(root, text='/',bg="#ee9f27", fg="#ffffff", command=lambda: button_click('/')).grid(row=6, column=4, sticky="nsew")
 
-    Button(root, text='1', command=lambda: button_click('1')).grid(row=7, column=0, sticky="nsew")
-    Button(root, text="2", command=lambda: button_click('2')).grid(row=7, column=1, sticky="nsew")
-    Button(root, text="3", command=lambda: button_click('3')).grid(row=7, column=2, sticky="nsew")
-    Button(root, text='+', command=lambda: button_click('+')).grid(row=7, column=3, sticky="nsew")
-    Button(root, text='-', command=lambda: button_click('-')).grid(row=7, column=4, sticky="nsew")
+    Button(root, text='1',bg="#505050", fg="#ffffff", command=lambda: button_click('1')).grid(row=7, column=0, sticky="nsew")
+    Button(root, text="2",bg="#505050", fg="#ffffff", command=lambda: button_click('2')).grid(row=7, column=1, sticky="nsew")
+    Button(root, text="3",bg="#505050", fg="#ffffff", command=lambda: button_click('3')).grid(row=7, column=2, sticky="nsew")
+    Button(root, text='+',bg="#ee9f27", fg="#ffffff", command=lambda: button_click('+')).grid(row=7, column=3, sticky="nsew")
+    Button(root, text='-',bg="#ee9f27", fg="#ffffff", command=lambda: button_click('-')).grid(row=7, column=4, sticky="nsew")
 
-    Button(root, text='0', command=lambda: button_click('0')).grid(row=8, column=0, sticky="nsew")
-    Button(root, text=".", command=lambda: button_click('.')).grid(row=8, column=1, sticky="nsew")
-    Button(root, text="=", command=calculate).grid(row=8, column=2, columnspan=2, sticky="nsew")
-    Button(root, text="Back", command=Mainmenu).grid(row=8, column=4, columnspan=1, sticky="nsew")
+    Button(root, text='0',bg="#505050", fg="#ffffff", command=lambda: button_click('0')).grid(row=8, column=0, sticky="nsew")
+    Button(root, text=".",bg="#505050", fg="#ffffff", command=lambda: button_click('.')).grid(row=8, column=1, sticky="nsew")
+    Button(root, text="=",bg="#ee9f27", fg="#ffffff", command=calculate).grid(row=8, column=2, columnspan=2, sticky="nsew")
+    Button(root, text="Back",bg="#2196F3", fg="#ffffff", command=Mainmenu).grid(row=8, column=4, columnspan=1, sticky="nsew")
 
 #Graphic Calculator
 def graphic_calculator():
@@ -131,11 +130,14 @@ def graphic_calculator():
                 widget.destroy()
 
             fig, ax = plt.subplots(figsize=(5, 4))
-            ax.plot(x, y)
-            ax.set_title("Polynomial Graph")
+            ax.plot(x, y, label="Polynomial Curve", color="blue")
+            ax.axhline(0, color="black", linewidth=0.8, linestyle="--")  # X-axis
+            ax.axvline(0, color="black", linewidth=0.8, linestyle="--")  # Y-axis
             ax.set_xlabel("X-Axis")
             ax.set_ylabel("Y-Axis")
             ax.grid(True)
+            ax.set_xlim(left, right)
+            ax.set_ylim(min(y)-1, max(y)+1)
 
             canvas = FigureCanvasTkAgg(fig, master=plot_frame)
             canvas.get_tk_widget().pack()
@@ -145,29 +147,29 @@ def graphic_calculator():
             error_label.config(text="Error: " + str(e))
     Button(root, text="Main Menu", command=Mainmenu).pack(pady=10)
 
-    Label(root, text="Enter Degree of Polynomial:").pack()
+    Label(root,bg="#2c2c2c", fg="#ffffff", text="Enter Degree of Polynomial:").pack()
     degree_entry = Entry(root)
     degree_entry.pack()
 
-    Label(root, text="Enter Coefficients (space-separated):").pack()
+    Label(root,bg="#2c2c2c", fg="#ffffff", text="Enter Coefficients (space-separated):").pack()
     coeff_entry = Entry(root)
     coeff_entry.pack()
 
-    Label(root, text="Enter Left Bound:").pack()
+    Label(root,bg="#2c2c2c", fg="#ffffff", text="Enter Left Bound:").pack()
     left_entry = Entry(root)
     left_entry.pack()
 
-    Label(root, text="Enter Right Bound:").pack()
+    Label(root,bg="#2c2c2c", fg="#ffffff", text="Enter Right Bound:").pack()
     right_entry = Entry(root)
     right_entry.pack()
 
-    Label(root, text="Enter Spacing Between Each Point:").pack()
+    Label(root, bg="#2c2c2c", fg="#ffffff",text="How Many Points Should Be Plotted Within The Bounds:").pack()
     points_entry = Entry(root)
     points_entry.pack()
 
-    Button(root, text="Plot Graph", command=plot_graph).pack(pady=10)
+    Button(root,bg="#505050", fg="#ffffff", text="Plot Graph", command=plot_graph).pack(pady=10)
 
-    error_label = Label(root, text="", fg="red")
+    error_label = Label(root, bg="#2c2c2c",text="", fg="red")
     error_label.pack()
 
     plot_frame = Frame(root)
@@ -198,24 +200,25 @@ def statistics_calculator():
     def stdev():
         numbers = list(map(float, number_entry.get().split()))
         stdev = statistics.stdev(numbers)
+        stdev= round(stdev,3)
         result_label.config(text=f"Standard Deviation: {stdev}")
 
 
     Button(root, text="Main Menu", command=Mainmenu).pack(pady=10)
 
-    Label(root, text="Enter Numbers(space seperated):").pack()
+    Label(root, bg="#2c2c2c", fg="#ffffff",text="Enter Numbers(space seperated):").pack()
     number_entry = Entry(root)
     number_entry.pack()
 
-    Button(root, text="Mean", command=mean).pack(pady=10)
+    Button(root, text="Mean",bg="#505050", fg="#ffffff", command=mean).pack(pady=10)
 
-    Button(root, text="Median", command=median).pack(pady=10)
+    Button(root, text="Median", bg="#505050", fg="#ffffff",command=median).pack(pady=10)
 
-    Button(root, text="Mode", command=mode).pack(pady=10)
+    Button(root, text="Mode",bg="#505050", fg="#ffffff", command=mode).pack(pady=10)
 
-    Button(root, text="Standard Deviation", command=stdev).pack(pady=10)
+    Button(root, text="Standard Deviation",bg="#505050", fg="#ffffff", command=stdev).pack(pady=10)
 
-    result_label = Label(root, text="", font=("Helvetica", 14))
+    result_label = Label(root,bg="#2c2c2c", text="", font=("Helvetica", 14))
     result_label.pack(pady=20)
 
 #Calculus Calculator
@@ -246,15 +249,15 @@ def calculus_calculator():
     
     Button(root, text="Main Menu", command=Mainmenu).pack(pady=10)
 
-    Label(root, text="Enter the expression to integrate (in terms of x): ").pack()
+    Label(root, bg="#2c2c2c", fg="#ffffff",text="Enter the expression to integrate or differentiate (in terms of x): ").pack()
     Calculus_entry = Entry(root)
     Calculus_entry.pack()
 
-    Button(root, text="Integrate", command=integral).pack(pady=10)
+    Button(root, text="Integrate",bg="#505050", fg="#ffffff", command=integral).pack(pady=10)
 
-    Button(root, text="Diffrentiate", command=diffrentiate).pack(pady=10)
+    Button(root, text="Diffrentiate",bg="#505050", fg="#ffffff", command=diffrentiate).pack(pady=10)
 
-    result_label = Label(root, text="", font=("Helvetica", 14))
+    result_label = Label(root, text="",bg="#2c2c2c", fg="#ffffff", font=("Helvetica", 14))
     result_label.pack(pady=20)
 
 #Distributions
@@ -269,37 +272,47 @@ def Binomial_Distribution():
 
             x = np.arange(0, n + 1)
             pmf = stats.binom.pmf(x, n, p)
-
+            cdf = stats.binom.cdf(x,n,p)
             for widget in plot_frame.winfo_children():
                 widget.destroy()
 
-            fig, ax = plt.subplots(figsize=(5, 4))
-            plt.bar(x, pmf)
-            ax.set_title("Binomial Distribution (n={}, p={})".format(n, p))
-            ax.set_xlabel("Number of Successes")
-            ax.set_ylabel("Probability")
-            ax.grid(False)
+            fig, ax = plt.subplots(1, 2, figsize=(10, 4))
+
+            ax[0].bar(x, pmf, color='blue', alpha=0.7)
+            ax[0].set_title(f"PMF Binomial (n={n}, p={p})")
+            ax[0].set_xlabel("Number of Successes")
+            ax[0].set_ylabel("Probability")
+            ax[0].grid(False)
+
+            ax[1].bar(x, cdf, color='green', alpha=0.7)
+            ax[1].set_title(f"CDF Binomial (n={n}, p={p})")
+            ax[1].set_xlabel("Number of Successes")
+            ax[1].set_ylabel("Cumulative Probability")
+            ax[1].grid(False)
+
+            plt.tight_layout()
 
             canvas = FigureCanvasTkAgg(fig, master=plot_frame)
             canvas.get_tk_widget().pack()
             canvas.draw()
+
         except ValueError as e:
             error_label.config(text="Error: " + str(e))
-    
+
 
     Button(root, text="Main Menu", command=Mainmenu).pack(pady=10)
 
-    Label(root, text="Enter Number Of Successes:").pack()
+    Label(root, bg="#2c2c2c", fg="#ffffff",text="Enter Number Of Trials:").pack()
     successes_entry = Entry(root)
     successes_entry.pack()
 
-    Label(root, text="Enter Probability:").pack()
+    Label(root, bg="#2c2c2c", fg="#ffffff",text="Enter Probability:").pack()
     prob_entry = Entry(root)
     prob_entry.pack()
 
-    Button(root, text="Plot Graph", command=binomial).pack(pady=10)
+    Button(root,bg="#505050", fg="#ffffff", text="Plot Graph", command=binomial).pack(pady=10)
 
-    error_label = Label(root, text="", fg="red")
+    error_label = Label(root, bg="#2c2c2c",text="", fg="red")
     error_label.pack()
 
     plot_frame = Frame(root)
@@ -315,20 +328,26 @@ def Normal_Distribution():
         try:
             mean = int(mean_entry.get())
             stdev = int(stdev_entry.get())
-            size = int(size_entry.get())
+            x = np.linspace(mean - 4 * stdev, mean + 4 * stdev, 1000)
 
-            data = np.random.normal(mean, stdev, size)
+            pdf = stats.norm.pdf(x, mean, stdev)
+            cdf = stats.norm.cdf(x, mean, stdev)
 
             for widget in plot_frame.winfo_children():
                 widget.destroy()
 
-            fig, ax = plt.subplots(figsize=(5, 4))
-            plt.hist(data, 100)
-            plt.axvline(data.mean(), color = 'k', linestyle = 'dashed', linewidth = 2)
-            ax.set_title("Normal Graph")
-            ax.set_xlabel("X-Axis")
-            ax.set_ylabel("Y-Axis")
-            ax.grid(False)
+            fig, ax = plt.subplots(1,2,figsize=(10, 4))
+            ax[0].plot(x, pdf, color="blue")
+            ax[0].fill_between(x, pdf, alpha=0.3, color="blue")
+            ax[0].set_title("PDF of Normal Distribution")
+            ax[0].set_xlabel("Value")
+            ax[0].set_ylabel("Probability Density")
+            
+            ax[1].plot(x, cdf, color="green")
+            ax[1].fill_between(x, cdf, alpha=0.3, color="green")
+            ax[1].set_title("CDF of Normal Distribution")
+            ax[1].set_xlabel("Value")
+            ax[1].set_ylabel("Probability Density")
 
             canvas = FigureCanvasTkAgg(fig, master=plot_frame)
             canvas.get_tk_widget().pack()
@@ -339,21 +358,17 @@ def Normal_Distribution():
 
     Button(root, text="Main Menu", command=Mainmenu).pack(pady=10)
 
-    Label(root, text="Enter Mean:").pack()
+    Label(root, bg="#2c2c2c", fg="#ffffff",text="Enter Mean:").pack()
     mean_entry = Entry(root)
     mean_entry.pack()
 
-    Label(root, text="Enter Standard Deviation:").pack()
+    Label(root,bg="#2c2c2c", fg="#ffffff", text="Enter Standard Deviation:").pack()
     stdev_entry = Entry(root)
     stdev_entry.pack()
 
-    Label(root, text="Enter Size Of Graph:").pack()
-    size_entry = Entry(root)
-    size_entry.pack()
+    Button(root, text="Plot Graph",bg="#505050", fg="#ffffff", command=normal).pack(pady=10)
 
-    Button(root, text="Plot Graph", command=normal).pack(pady=10)
-
-    error_label = Label(root, text="", fg="red")
+    error_label = Label(root, text="",bg="#2c2c2c", fg="red")
     error_label.pack()
 
     plot_frame = Frame(root)
@@ -372,19 +387,26 @@ def Poison_Distribution():
             left = float(Left_entry.get())
             right = float(Right_entry.get())
 
-            array = np.arange(left, right, 0.5)
-            graph = poisson.pmf(array, Lambda, Loc)
-        
+            array = np.arange(left, right, 1)
+            pmf = poisson.pmf(array, Lambda, Loc)
+            cdf = poisson.cdf(array, mu=Lambda, loc=Loc)
+
 
             for widget in plot_frame.winfo_children():
                 widget.destroy()
 
-            fig, ax = plt.subplots(figsize=(5, 4))
-            ax.plot(array, graph)
-            ax.set_title("Poisson Graph")
-            ax.set_xlabel("X-Axis")
-            ax.set_ylabel("Y-Axis")
-            ax.grid(False)
+            fig, ax = plt.subplots(1,2,figsize=(5, 4))
+            ax[0].plot(array, pmf)
+            ax[0].set_title("PMF Poisson Graph")
+            ax[0].set_xlabel("X-Axis")
+            ax[0].set_ylabel("Probability")
+            ax[0].grid(True)
+
+            ax[1].plot(array, cdf, color="green")
+            ax[1].set_title("CDF Poisson Graph")
+            ax[1].set_xlabel("X-Axis")
+            ax[1].set_ylabel("Cumulative Probability")
+            ax[1].grid(True)
 
             canvas = FigureCanvasTkAgg(fig, master=plot_frame)
             canvas.get_tk_widget().pack()
@@ -395,29 +417,29 @@ def Poison_Distribution():
 
     Button(root, text="Main Menu", command=Mainmenu).pack(pady=10)
 
-    Label(root, text="Enter Left Bound:").pack()
+    Label(root,bg="#2c2c2c", fg="#ffffff", text="Enter Left Bound:").pack()
     Left_entry = Entry(root)
     Left_entry.pack()
 
-    Label(root, text="Enter Right Bound:").pack()
+    Label(root, bg="#2c2c2c", fg="#ffffff",text="Enter Right Bound:").pack()
     Right_entry = Entry(root)
     Right_entry.pack()
 
-    Label(root, text="Enter Lambda:").pack()
+    Label(root,bg="#2c2c2c", fg="#ffffff", text="Enter Lambda:").pack()
     Lambda_entry = Entry(root)
     Lambda_entry.pack()
 
-    Label(root, text="Enter Location:").pack()
+    Label(root,bg="#2c2c2c", fg="#ffffff", text="Enter Shift:").pack()
     loc_entry = Entry(root)
     loc_entry.pack()
 
-    Button(root, text="Plot Graph", command=poison).pack(pady=10)
+    Button(root, text="Plot Graph",bg="#505050", fg="#ffffff", command=poison).pack(pady=10)
 
-    error_label = Label(root, text="", fg="red")
+    error_label = Label(root, text="",bg="#2c2c2c", fg="red")
     error_label.pack()
 
     plot_frame = Frame(root)
-    plot_frame.pack()
+    plot_frame.pack(fill="both", expand=True)
 
 
 
@@ -440,15 +462,21 @@ def Mainmenu():
     calc_menu.add_command(label="Normal Graphing", command=Normal_Distribution)
     calc_menu.add_command(label="Poisson Graphing", command=Poison_Distribution)
     calc_menu.add_separator()
-    calc_menu.add_command(label="Exit", command=root.quit)
+    calc_menu.add_command(label="Quit", command=root.quit)
 
-    Label(root, text="Welcome to the Multi-Mode Calculator", font=("Helvetica", 16)).pack(pady=20)
-    Label(root, text="Select a calculator type from the menu above.", font=("Helvetica", 12)).pack(pady=10)
+    Label(root, text="Welcome to the Multi-Mode Calculator", font=("Helvetica", 16),bg="#2c2c2c",fg="#ffffff").pack(pady=20)
+    Button(root, text="Scientific Calculator",bg="#505050", fg="#ffffff", width=20, anchor='center', command=scientific_calculator).pack(pady=10)
+    Button(root, text="Graphic Calculator",bg="#505050", fg="#ffffff", width=20, anchor='center', command=graphic_calculator).pack(pady=10)
+    Button(root, text="Statistics Calculator",bg="#505050", fg="#ffffff", width=20, anchor='center', command=statistics_calculator).pack(pady=10)
+    Button(root, text="Calculus Calculator",bg="#505050", fg="#ffffff" , width=20, anchor='center',command=calculus_calculator).pack(pady=10)
+    Button(root, text="Binomial Distribution",bg="#505050", fg="#ffffff", width=20, anchor='center',command=Binomial_Distribution).pack(pady=10)
+    Button(root, text="Normal Distribution", bg="#505050", fg="#ffffff", width=20, anchor='center',command=Normal_Distribution).pack(pady=10)
+    Button(root, text="Poisson Distribution",bg="#505050", fg="#ffffff",  width=20, anchor='center',command=Poison_Distribution).pack(pady=10)
 
 #Starting the Main Menu
 root = Tk()
 root.title("Calculator Selector")
-
+root.configure(bg="#2c2c2c") 
 menu = Menu(root)
 root.config(menu=menu)
 
@@ -464,7 +492,13 @@ calc_menu.add_command(label="Poisson Graphing", command=Poison_Distribution)
 calc_menu.add_separator()
 calc_menu.add_command(label="Exit", command=root.quit)
 
-Label(root, text="Welcome to the Multi-Mode Calculator", font=("Helvetica", 16)).pack(pady=20)
-Label(root, text="Select a calculator type from the menu above.", font=("Helvetica", 12)).pack(pady=10)
+Label(root, text="Welcome to the Multi-Mode Calculator", font=("Helvetica", 16),bg="#2c2c2c",fg="#ffffff").pack(pady=20)
+Button(root, text="Scientific Calculator",bg="#505050", fg="#ffffff", width=20, anchor='center', command=scientific_calculator).pack(pady=10)
+Button(root, text="Graphic Calculator",bg="#505050", fg="#ffffff", width=20, anchor='center', command=graphic_calculator).pack(pady=10)
+Button(root, text="Statistics Calculator",bg="#505050", fg="#ffffff", width=20, anchor='center', command=statistics_calculator).pack(pady=10)
+Button(root, text="Calculus Calculator",bg="#505050", fg="#ffffff" , width=20, anchor='center',command=calculus_calculator).pack(pady=10)
+Button(root, text="Binomial Distribution",bg="#505050", fg="#ffffff", width=20, anchor='center',command=Binomial_Distribution).pack(pady=10)
+Button(root, text="Normal Distribution", bg="#505050", fg="#ffffff", width=20, anchor='center',command=Normal_Distribution).pack(pady=10)
+Button(root, text="Poisson Distribution",bg="#505050", fg="#ffffff",  width=20, anchor='center',command=Poison_Distribution).pack(pady=10)
 
 root.mainloop()
